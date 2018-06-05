@@ -21,8 +21,8 @@ app.get('/getUsers', function (req, res) {
     })
 });
 
-app.get('/getUsers/:nombre', function (req, res) {
-  Usuario.findOne({nombre:req.params.nombre}).exec((err, usuario) => {
+app.post('/getUser', function (req, res) {
+  Usuario.findOne({nombre:req.body.nombre}).exec((err, usuario) => {
       if(err){
         return res.status(400).json({
           ok: false,
@@ -42,9 +42,7 @@ app.post('/usuario', function (req, res) {
 
   let usuario = new Usuario({
     nombre: body.nombre,
-    email: body.email,
-    password: bcrypt.hashSync(body.password, 10),
-    role: body.role
+    ciudadesFavoritas:[]
   });
 
   usuario.save((err, usuarioDB) => {
@@ -63,12 +61,17 @@ app.post('/usuario', function (req, res) {
 
 });
 
-app.put('/usuario/:id', function (req, res) {
+app.post('/usuario/ciudadesFavoritas', function (req, res) {
 
-  let id = req.params.id;
-  let body = _.pick(req.body, ['nombre','email','img','rol','estado']);
+  let {nombre, location} = req.body;
 
-  Usuario.findByIdAndUpdate (id, body, {new:true, runValidators:true}, (err, usuarioDB) => {
+  Usuario.findOneAndUpdate (
+    {nombre:nombre},
+    {
+      $push: { ciudadesFavoritas: location }
+    },
+    {new:true},
+    (err, usuarioDB) => {
     if(err){
       return res.status(400).json({
         ok: false,
@@ -81,6 +84,7 @@ app.put('/usuario/:id', function (req, res) {
       });
     });
   });
+
 
 
 app.delete('/usuario', function (req, res) {

@@ -13,34 +13,34 @@ let UsuarioSchema = new Schema({
     type: String,
     required: true
   },
-  email: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  password: {
-    type: String,
-    unique: false,
-    required: true
-  },
-  img: {
-    type: String,
-    required: false
-  },
-  role: {
-    type: String,
-    default: 'USER_ROLE',
-    enum: rolesValidos
-  },
-  estado: {
-    type: Boolean,
-    default: true
-  },
-  google: {
-    type: Boolean,
-    default: false
-  },
-  locations:{
+  // email: {
+  //   type: String,
+  //   unique: true,
+  //   required: true
+  // },
+  // password: {
+  //   type: String,
+  //   unique: false,
+  //   required: true
+  // },
+  // img: {
+  //   type: String,
+  //   required: false
+  // },
+  // role: {
+  //   type: String,
+  //   default: 'USER_ROLE',
+  //   enum: rolesValidos
+  // },
+  // estado: {
+  //   type: Boolean,
+  //   default: true
+  // },
+  // google: {
+  //   type: Boolean,
+  //   default: false
+  // },
+  ciudadesFavoritas:{
     type: Array,
     default:[]
   }
