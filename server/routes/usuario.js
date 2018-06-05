@@ -85,10 +85,46 @@ app.post('/usuario/ciudadesFavoritas', function (req, res) {
     });
   });
 
+  app.post('/usuario/ciudadesFavoritas', function (req, res) {
+    Usuario.find({nombre:req.body.nombre}).exec((err, usuarios) => {
+        if(err){
+          return res.status(400).json({
+            ok: false,
+            err
+          });
+        }
+        res.json({
+          ok: true,
+          usuario: usuarioDB
+        });
+      })
+  });
+
+app.post('/usuario/deleteCiudadesFavoritas', function (req, res) {
+
+  let {nombre, location} = req.body;
+
+  Usuario.findOneAndUpdate (
+    {nombre:nombre},
+    {
+      $pull: { ciudadesFavoritas: {city:location} }
+    },
+    {new:true},
+    (err, usuarioDB) => {
+    if(err){
+      return res.status(400).json({
+        ok: false,
+        err
+      });
+    }
+      res.json({
+        ok: true,
+        usuario: usuarioDB
+      });
+    });
+  });
 
 
-app.delete('/usuario', function (req, res) {
-  res.json('delete usuario');
-});
+
 
 module.exports = app;
